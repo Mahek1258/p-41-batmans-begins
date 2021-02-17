@@ -6,8 +6,9 @@ const Body = Matter.Body;
 var man_img , thunder1 , thunder2 , thunder3;
 var maxDrops = 100;
 var drops = [];
+var thunder;
+var thunderFrameCount = 0;
 var umbrella;
-var thunder, thunderCreatedFrame = 0;
 var engine , world
 function preload(){
   man_img = loadImage("man.png");
@@ -37,10 +38,11 @@ function draw(){
   background(0);
   Engine.update(engine);
 
-  var rand = Math.round(random(1,2));
+  var rand = Math.round(random(1,3));
+
   if(frameCount%80===0){
-    thunderCreatedFrame = frameCount;
-   thunder = createSprite(random(10,370),random(10,30),10,10);
+    thunder = createSprite(random(10,370),random(10,30),10,10);
+
    switch(rand){
      case 1 : thunder.addImage(thunder1);
      break;
@@ -48,13 +50,15 @@ function draw(){
      break;
      case 3 : thunder.addImage(thunder3);
      break;
+     default: break;
      
    }
+   thunderFrameCount = frameCount ;
+   thunder.scale = random(0.3 , 0.6);
   }
-  
-  if(thunderCreatedFrame + 20 === frameCount){
+  if(thunderFrameCount+ 10 === frameCount && thunder){
     thunder.destroy();
- }
+  }
 
   umbrella.display();
   
